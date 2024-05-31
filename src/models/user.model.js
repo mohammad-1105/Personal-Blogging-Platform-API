@@ -44,7 +44,7 @@ const userSchema = new Schema(
       },
     },
 
-    refreshToken: {
+    refreshAccessToken: {
       type: String,
     },
   },
