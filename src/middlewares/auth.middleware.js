@@ -11,13 +11,13 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
       req.headers["Authorization"]?.replace("Bearer ");
 
     if (!token) {
-      throw new ApiError(403, "No Token Found !");
+      throw new ApiError(401, "No Token Found !");
     }
 
     // decrypt token
     const dcryptedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     if (!dcryptedToken) {
-      throw new ApiError(403, "Invalid Token, may be expired !");
+      throw new ApiError(401, "Invalid Token, may be expired !");
     }
 
     // find user
@@ -30,6 +30,6 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
 
     next(); // next flag to run next middleware after this
   } catch (error) {
-    throw new ApiError(403, error.message || "Unauthorized access ! No token found");
+    throw new ApiError(500, error.message || "Failed to verify Token");
   }
 });

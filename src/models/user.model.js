@@ -39,6 +39,9 @@ const userSchema = new Schema(
         type: String, // cloudinary
         default: "https://placehold.co/80x80",
       },
+      avatarPublicId: {
+        type: String
+      },
       bio: {
         type: String,
       },
