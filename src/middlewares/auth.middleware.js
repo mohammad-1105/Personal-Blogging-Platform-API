@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/ApiError.js";
 import { UserModel } from "../models/user.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-export const verifyJWT = async (req, res, next) => {
+export const verifyJWT = asyncHandler(async (req, _, next) => {
   try {
     // get cookie from browser
     const token =
@@ -15,7 +16,7 @@ export const verifyJWT = async (req, res, next) => {
 
     // decrypt token
     const dcryptedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    if (!dcryptedToken || !dcryptedToken._id) {
+    if (!dcryptedToken) {
       throw new ApiError(403, "Invalid Token, may be expired !");
     }
 
@@ -29,6 +30,6 @@ export const verifyJWT = async (req, res, next) => {
 
     next(); // next flag to run next middleware after this
   } catch (error) {
-    console.error("Failed to verifyJWT :: ", error);
+    throw new ApiError(403, error.message || "Unauthorized access ! No token found");
   }
-};
+});
