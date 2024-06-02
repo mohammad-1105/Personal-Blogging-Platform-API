@@ -36,7 +36,7 @@ const userSchema = new Schema(
 
     profile: {
       avatar: {
-        type: String, // cloudinary
+        type: String, // URL to the image stored on Cloudinary
         default: "https://placehold.co/80x80",
       },
       avatarPublicId: {
